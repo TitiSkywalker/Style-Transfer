@@ -24,15 +24,17 @@ def denormalize(tensor):
 
 def tensor_to_image(tensor):
     tensor = denormalize(tensor)
+
     # remove batch dimension
     if len(tensor.shape) == 4:
         tensor = tensor.squeeze(0)
     tensor = tensor.detach().cpu()
+
     # permute (C, H, W) -> (H, W, C)
     tensor = tensor.permute(1, 2, 0)
 
     numpy_image = tensor.numpy()
-    numpy_image = np.clip(numpy_image, 0, 1)    # avoid overflow
+    numpy_image = np.clip(numpy_image, 0, 1)    
     numpy_image = (numpy_image * 255).astype(np.uint8)
     return numpy_image
 
