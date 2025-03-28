@@ -28,7 +28,9 @@ def gram_matrix(feature: torch.Tensor):
 
 Then, we compare the Gram matrices of $S$ and $T$ using MSE loss. However, we also need to make sure not to destroy $T$'s original content. This is done by taking other layers (orange box in figure) and compute MSE loss directly. To sum up, we aim to minimize:
 
-\[\min_{\text{image }X} c_1 \times \sum_{\text{style layer } l}{MSE(Gram(S_l), Gram(X_l))} + c_2 \times \sum_{\text{content layer }l}{MSE(S_l, X_l)}\]
+$$
+\min_{\text{image }X} c_1 \times \sum_{\text{style layer } l}{MSE(Gram(S_l), Gram(X_l))} + c_2 \times \sum_{\text{content layer }l}{MSE(S_l, X_l)}
+$$
 
 The algorithm becomes clear now. We first initialize tensor $X=T$, then compute the gradient of $X$ with respect to the above loss. By changing $X$ gradually with gradient descent, we transfer the style of $S$ into $X$.
 
