@@ -9,7 +9,7 @@ from vgg import vgg16
 from console import TaskLog, LoopLog
 from image import preprocess_image, save_processed_image
 
-def gram_matrix(feature):
+def gram_matrix(feature: torch.Tensor):
     c, h, w = feature.size()
     features_reshaped = feature.view(c, h * w)
     gram = torch.mm(features_reshaped, features_reshaped.t())

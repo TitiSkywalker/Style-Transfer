@@ -1,18 +1,21 @@
 import torch
 import torch.nn as nn
 
+# (optional) visualize the neural network
+# from torchviz import make_dot
+
 class vgg16(nn.Module):
     r"""same as torchvision.models.vgg16"""
     def __init__(self):
         super().__init__()
         self.features = nn.Sequential(
-            nn.Conv2d(3, 64, kernel_size=3, padding=1),
+            nn.Conv2d(3, 64, kernel_size=3, padding=1),     # conv1_1
             nn.ReLU(inplace=True),
-            nn.Conv2d(64, 64, kernel_size=3, padding=1),  # conv1_2
+            nn.Conv2d(64, 64, kernel_size=3, padding=1),    # conv1_2
             nn.ReLU(inplace=True),
             nn.MaxPool2d(kernel_size=2, stride=2),
             
-            nn.Conv2d(64, 128, kernel_size=3, padding=1),  # conv2_1
+            nn.Conv2d(64, 128, kernel_size=3, padding=1),   # conv2_1
             nn.ReLU(inplace=True),
             nn.Conv2d(128, 128, kernel_size=3, padding=1),  # conv2_2
             nn.ReLU(inplace=True),
@@ -62,6 +65,13 @@ class vgg16(nn.Module):
             24: "conv5_1", 26: "conv5_2", 28: "conv5_3",
         }
 
+    def forward(self, x):
+        x = self.features(x)       
+        x = self.avgpool(x)        
+        x = torch.flatten(x, 1)    
+        x = self.classifier(x)     
+        return x
+
     def collect(self, x: torch.Tensor) -> dict[str, torch.Tensor]:
         features = {}
         for index, layer in enumerate(self.features):
@@ -69,3 +79,11 @@ class vgg16(nn.Module):
             if index in self.feature_layers.keys():
                 features[self.feature_layers[index]] = x 
         return features
+    
+# (optional) visualize the neural network
+# if __name__ == "__main__":
+#     x = torch.randn(1, 3, 200, 200)
+#     model = vgg16()
+#     out = model(x)
+#     graph = make_dot(out)
+#     graph.render("network", view=False, format="jpg")
