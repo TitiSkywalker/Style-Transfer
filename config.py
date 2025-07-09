@@ -1,4 +1,4 @@
-import torch 
+import torch
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
@@ -21,5 +21,5 @@ STYLE_COEFFICIENT = 1e6
 DETAIL = True
 
 # define which layers to look at inside vgg16
-STYLE_LAYERS = ['conv1_1', 'conv2_1', 'conv3_1', 'conv4_1', 'conv5_1']
-CONTENT_LAYERS = ['conv4_2']
+STYLE_LAYERS = ["conv1_1", "conv2_1", "conv3_1", "conv4_1", "conv5_1"]
+CONTENT_LAYERS = ["conv4_2"]
