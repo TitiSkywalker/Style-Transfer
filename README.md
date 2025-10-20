@@ -1,4 +1,4 @@
-# Easy Style Transfer in PyTorch
+# Style Transfer in PyTorch
 
 ![alt text](./figures/all.png)
 
